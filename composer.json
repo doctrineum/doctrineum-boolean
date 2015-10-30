@@ -1,0 +1,23 @@
+{
+  "name": "doctrineum/boolean",
+  "type": "library",
+  "description": "Enumeration type for Doctrine - bools only",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Doctrineum\\": "Doctrineum/"
+    }
+  },
+  "require": {
+    "php": ">=5.5",
+    "granam/strict-object": "dev-master",
+    "doctrineum/scalar": "dev-master",
+    "granam/boolean": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.4",
+    "mockery/mockery": "0.9.*"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
