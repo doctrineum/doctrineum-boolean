@@ -186,6 +186,19 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param BooleanEnumType $enumType
+     *
+     * @test
+     * @depends type_instance_can_be_obtained
+     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     */
+    public function I_am_stopped_if_use_invalid_value(BooleanEnumType $enumType)
+    {
+        $enumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
+
+    }
+
+    /**
      * @return AbstractPlatform
      */
     protected function getPlatform()
