@@ -15,7 +15,7 @@
         <directory>./Doctrineum/Tests</directory>
     </testsuite>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
             <directory>./Doctrineum/Boolean</directory>
         </whitelist>
     </filter>

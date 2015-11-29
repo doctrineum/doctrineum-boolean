@@ -145,7 +145,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enum = \Mockery::mock('Doctrineum\Scalar\EnumInterface');
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $enum->shouldReceive('getEnumValue')
+        $enum->shouldReceive('getValue')
             ->once()
             ->andReturn($value = 1);
         /** @var EnumInterface $enum */
@@ -166,7 +166,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        $this->assertSame(boolval($integer), $enum->getEnumValue());
+        $this->assertSame(boolval($integer), $enum->getValue());
         $this->assertSame('1', (string)$enum);
     }
 

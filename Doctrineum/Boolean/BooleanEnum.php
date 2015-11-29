@@ -34,12 +34,4 @@ class BooleanEnum extends Enum implements BooleanEnumInterface
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getValue()
-    {
-        return $this->getEnumValue();
-    }
-
 }
