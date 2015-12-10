@@ -5,7 +5,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Boolean\BooleanEnumType;
-use Doctrineum\Scalar\EnumInterface;
+use Doctrineum\Scalar\ScalarEnumInterface;
 
 class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -132,7 +132,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
     private function getAbstractPlatform()
     {
-        return \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
+        return \Mockery::mock(AbstractPlatform::class);
     }
 
     /**
@@ -143,12 +143,12 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function enum_as_database_value_is_that_enum_value(BooleanEnumType $enumType)
     {
-        $enum = \Mockery::mock('Doctrineum\Scalar\EnumInterface');
+        $enum = \Mockery::mock(ScalarEnumInterface::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $enum->shouldReceive('getValue')
             ->once()
             ->andReturn($value = 1);
-        /** @var EnumInterface $enum */
+        /** @var ScalarEnumInterface $enum */
         $this->assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
     }
 
@@ -203,7 +203,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
     protected function getPlatform()
     {
-        return \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
+        return \Mockery::mock(AbstractPlatform::class);
     }
 
     /**

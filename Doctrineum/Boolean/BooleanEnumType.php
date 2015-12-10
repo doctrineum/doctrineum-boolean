@@ -1,24 +1,24 @@
 <?php
 namespace Doctrineum\Boolean;
 
-use Doctrineum\Scalar\EnumType;
+use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Boolean\Tools\ToBoolean;
 
 /**
- * Class EnumType
+ * Class ScalarEnumType
  * @package Doctrineum
  *
  * @method static BooleanEnumType getType($name),
  * @see Type::getType
  */
-class BooleanEnumType extends EnumType
+class BooleanEnumType extends ScalarEnumType
 {
     use BooleanEnumTypeTrait;
 
     const BOOLEAN_ENUM = 'boolean_enum';
 
     /**
-     * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
+     * @see \Doctrineum\Scalar\ScalarEnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
      *

@@ -3,6 +3,7 @@ namespace Doctrineum\Tests\Boolean;
 
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Tests\Scalar\WithToStringTestObject;
+use Granam\Boolean\BooleanInterface;
 
 class BooleanEnumTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,7 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
         $instance = BooleanEnum::getEnum(true);
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertInstanceOf(BooleanEnum::getClass(), $instance);
-        $this->assertInstanceOf('Granam\Boolean\BooleanInterface', $instance);
+        $this->assertInstanceOf(BooleanInterface::class, $instance);
     }
 
     /** @test */

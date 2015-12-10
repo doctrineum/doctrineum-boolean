@@ -1,14 +1,14 @@
 <?php
 namespace Doctrineum\Boolean;
 
-use Doctrineum\Scalar\Enum;
+use Doctrineum\Scalar\ScalarEnum;
 use Granam\Boolean\Tools\ToBoolean;
 
 /**
  * @method static BooleanEnum getEnum($value)
  * @method bool getValue()
  */
-class BooleanEnum extends Enum implements BooleanEnumInterface
+class BooleanEnum extends ScalarEnum implements BooleanEnumInterface
 {
 
     /**

@@ -1,13 +1,14 @@
 <?php
 namespace Doctrineum\Tests\Boolean;
 
+use Doctrineum\Boolean\BooleanEnum;
 use Granam\Exceptions\Tests\Tools\AbstractTestOfExceptionsHierarchy;
 
 class ExceptionsHierarchyTest extends AbstractTestOfExceptionsHierarchy
 {
     protected function getTestedNamespace()
     {
-        $reflection = new \ReflectionClass('Doctrineum\Boolean\BooleanEnum');
+        $reflection = new \ReflectionClass(BooleanEnum::class);
 
         return $reflection->getNamespaceName();
     }
