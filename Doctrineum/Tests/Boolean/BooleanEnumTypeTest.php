@@ -5,7 +5,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Boolean\BooleanEnumType;
-use Doctrineum\Scalar\ScalarEnumInterface;
+use Doctrineum\Scalar\Enum;
 
 class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +42,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
         $enumType = Type::getType($enumTypeClass::getTypeName());
         /** @var BooleanEnumType $enumType */
         if ($enumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
-            $this->assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
+            self::assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
         }
     }
 
@@ -55,7 +55,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
         if (!Type::hasType($enumTypeClass::getTypeName())) {
             Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
         }
-        $this->assertTrue(Type::hasType($enumTypeClass::getTypeName()));
+        self::assertTrue(Type::hasType($enumTypeClass::getTypeName()));
     }
 
     /**
@@ -65,7 +65,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enumTypeClass = $this->getEnumTypeClass();
         $instance = $enumTypeClass::getType($enumTypeClass::getTypeName());
-        $this->assertInstanceOf($enumTypeClass, $instance);
+        self::assertInstanceOf($enumTypeClass, $instance);
 
         return $instance;
     }
@@ -81,10 +81,10 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
         $enumTypeClass = $this->getEnumTypeClass();
         $typeName = $this->convertToTypeName($enumTypeClass);
         $constantName = strtoupper($typeName);
-        $this->assertTrue(defined("$enumTypeClass::$constantName"));
-        $this->assertSame($enumTypeClass::getTypeName(), $typeName);
-        $this->assertSame($typeName, constant("$enumTypeClass::$constantName"));
-        $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
+        self::assertTrue(defined("$enumTypeClass::$constantName"));
+        self::assertSame($enumTypeClass::getTypeName(), $typeName);
+        self::assertSame($typeName, constant("$enumTypeClass::$constantName"));
+        self::assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
     }
 
     /**
@@ -112,7 +112,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function sql_declaration_is_valid(BooleanEnumType $enumType)
     {
         $sql = $enumType->getSQLDeclaration([], $this->getAbstractPlatform());
-        $this->assertSame('INTEGER', $sql);
+        self::assertSame('INTEGER', $sql);
     }
 
     /**
@@ -124,7 +124,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function sql_default_length_is_one(BooleanEnumType $enumType)
     {
         $defaultLength = $enumType->getDefaultLength($this->getAbstractPlatform());
-        $this->assertSame(1, $defaultLength);
+        self::assertSame(1, $defaultLength);
     }
 
     /**
@@ -143,13 +143,13 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function enum_as_database_value_is_that_enum_value(BooleanEnumType $enumType)
     {
-        $enum = \Mockery::mock(ScalarEnumInterface::class);
+        $enum = \Mockery::mock(Enum::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $enum->shouldReceive('getValue')
             ->once()
             ->andReturn($value = 1);
-        /** @var ScalarEnumInterface $enum */
-        $this->assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
+        /** @var Enum $enum */
+        self::assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
     }
 
     /**
@@ -165,9 +165,9 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function value_is_propagated_to_enum_on_conversion_to_php_value(BooleanEnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
-        $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        $this->assertSame(boolval($integer), $enum->getValue());
-        $this->assertSame('1', (string)$enum);
+        self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
+        self::assertSame((bool)$integer, $enum->getValue());
+        self::assertSame('1', (string)$enum);
     }
 
     /**
@@ -177,12 +177,12 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $anotherEnumType = $this->getAnotherEnumTypeClass();
         if (!$anotherEnumType::isRegistered()) {
-            $this->assertTrue($anotherEnumType::registerSelf());
+            self::assertTrue($anotherEnumType::registerSelf());
         } else {
-            $this->assertFalse($anotherEnumType::registerSelf());
+            self::assertFalse($anotherEnumType::registerSelf());
         }
 
-        $this->assertTrue($anotherEnumType::isRegistered());
+        self::assertTrue($anotherEnumType::isRegistered());
     }
 
     /**

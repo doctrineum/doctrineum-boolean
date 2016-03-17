@@ -1,10 +1,10 @@
 <?php
 namespace Doctrineum\Boolean;
 
-use Doctrineum\Scalar\ScalarEnumInterface;
+use Doctrineum\Scalar\Enum;
 use Granam\Boolean\BooleanInterface;
 
-interface BooleanEnumInterface extends BooleanInterface, ScalarEnumInterface
+interface BooleanEnumInterface extends BooleanInterface, Enum
 {
 
 }
