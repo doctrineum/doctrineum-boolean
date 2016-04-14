@@ -6,25 +6,10 @@ use Doctrine\DBAL\Types\Type;
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Boolean\BooleanEnumType;
 use Doctrineum\Scalar\Enum;
+use Granam\Tests\Tools\TestWithMockery;
 
-class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
+class BooleanEnumTypeTest extends TestWithMockery
 {
-
-    /**
-     * @return \Doctrineum\Boolean\BooleanEnumType
-     */
-    protected function getEnumTypeClass()
-    {
-        return BooleanEnumType::getClass();
-    }
-
-    /**
-     * @return \Doctrineum\Boolean\BooleanEnum
-     */
-    protected function getRegisteredEnumClass()
-    {
-        return BooleanEnum::getClass();
-    }
 
     protected function setUp()
     {
@@ -34,22 +19,32 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return \Doctrineum\Boolean\BooleanEnumType
+     */
+    protected function getEnumTypeClass()
+    {
+        return BooleanEnumType::getClass();
+    }
+
     protected function tearDown()
     {
-        \Mockery::close();
-
         $enumTypeClass = $this->getEnumTypeClass();
         $enumType = Type::getType($enumTypeClass::getTypeName());
         /** @var BooleanEnumType $enumType */
-        if ($enumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
-            self::assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
+        if ($enumType::hasSubTypeEnum(TestSubTypeBooleanEnum::getClass())) {
+            self::assertTrue($enumType::removeSubTypeEnum(TestSubTypeBooleanEnum::getClass()));
         }
+        if ($enumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass())) {
+            self::assertTrue($enumType::removeSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass()));
+        }
+        parent::tearDown();
     }
 
     /**
      * @test
      */
-    public function can_be_registered()
+    public function I_can_register_it()
     {
         $enumTypeClass = $this->getEnumTypeClass();
         if (!Type::hasType($enumTypeClass::getTypeName())) {
@@ -61,7 +56,7 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function type_instance_can_be_obtained()
+    public function I_can_get_instance_of_it()
     {
         $enumTypeClass = $this->getEnumTypeClass();
         $instance = $enumTypeClass::getType($enumTypeClass::getTypeName());
@@ -74,9 +69,9 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param BooleanEnumType $enumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance_of_it
      */
-    public function type_name_is_as_expected(BooleanEnumType $enumType)
+    public function I_get_expected_type_name(BooleanEnumType $enumType)
     {
         $enumTypeClass = $this->getEnumTypeClass();
         $typeName = $this->convertToTypeName($enumTypeClass);
@@ -107,9 +102,9 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param BooleanEnumType $enumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance_of_it
      */
-    public function sql_declaration_is_valid(BooleanEnumType $enumType)
+    public function Its_sql_declaration_is_valid(BooleanEnumType $enumType)
     {
         $sql = $enumType->getSQLDeclaration([], $this->getAbstractPlatform());
         self::assertSame('INTEGER', $sql);
@@ -119,9 +114,9 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param BooleanEnumType $enumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance_of_it
      */
-    public function sql_default_length_is_one(BooleanEnumType $enumType)
+    public function Its_sql_default_length_is_one(BooleanEnumType $enumType)
     {
         $defaultLength = $enumType->getDefaultLength($this->getAbstractPlatform());
         self::assertSame(1, $defaultLength);
@@ -132,50 +127,87 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
     private function getAbstractPlatform()
     {
-        return \Mockery::mock(AbstractPlatform::class);
+        return $this->mockery(AbstractPlatform::class);
     }
 
     /**
-     * @param BooleanEnumType $enumType
+     * @param $enumValue
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @dataProvider provideEnumValueForDatabase
      */
-    public function enum_as_database_value_is_that_enum_value(BooleanEnumType $enumType)
+    public function Its_persisted_with_equal_value_as_enum_has($enumValue)
     {
-        $enum = \Mockery::mock(Enum::class);
+        $enum = $this->mockery(Enum::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $enum->shouldReceive('getValue')
             ->once()
-            ->andReturn($value = 1);
+            ->andReturn($enumValue);
+
+        $enumType = Type::getType(BooleanEnumType::getTypeName());
         /** @var Enum $enum */
-        self::assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
+        self::assertSame($enumValue, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
+    }
+
+    public function provideEnumValueForDatabase()
+    {
+        return [
+            [0],
+            [1]
+        ];
     }
 
     /**
-     * conversions to PHP value
+     * CONVERSIONS TO PHP VALUE
      */
 
     /**
-     * @param BooleanEnumType $enumType
-     *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @dataProvider provideValueToConvertIntoEnum
+     * @param $valueToConvert
      */
-    public function value_is_propagated_to_enum_on_conversion_to_php_value(BooleanEnumType $enumType)
+    public function I_get_enum_with_database_value($valueToConvert)
     {
-        $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
+        $enumType = Type::getType(BooleanEnumType::getTypeName());
+        $enum = $enumType->convertToPHPValue($valueToConvert, $this->getAbstractPlatform());
         self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        self::assertSame((bool)$integer, $enum->getValue());
-        self::assertSame('1', (string)$enum);
+        self::assertSame((bool)$valueToConvert, $enum->getValue());
+        self::assertSame((string)(bool)$valueToConvert, (string)$enum);
+    }
+
+    public function provideValueToConvertIntoEnum()
+    {
+        return [
+            [123],
+            [0],
+        ];
+    }
+
+    /**
+     * @param BooleanEnumType $booleanEnumType
+     * @test
+     * @depends I_can_get_instance_of_it
+     */
+    public function I_got_null_instead_on_enum_if_fetched_from_database(BooleanEnumType $booleanEnumType)
+    {
+        self::assertNull($booleanEnumType->convertToPHPValue(null, $this->getAbstractPlatform()));
+    }
+
+    /**
+     * @return \Doctrineum\Boolean\BooleanEnum
+     */
+    protected function getRegisteredEnumClass()
+    {
+        return BooleanEnum::getClass();
     }
 
     /**
      * @test
      */
-    public function can_register_another_enum_type()
+    public function I_can_register_another_enum_type()
     {
-        $anotherEnumType = $this->getAnotherEnumTypeClass();
+        /** @var TestAnotherBooleanEnumType $anotherEnumType */
+        $anotherEnumType = TestAnotherBooleanEnumType::getClass();
         if (!$anotherEnumType::isRegistered()) {
             self::assertTrue($anotherEnumType::registerSelf());
         } else {
@@ -189,45 +221,32 @@ class BooleanEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param BooleanEnumType $enumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance_of_it
      * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      */
     public function I_am_stopped_if_use_invalid_value(BooleanEnumType $enumType)
     {
         $enumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
-
     }
 
     /**
-     * @return AbstractPlatform
+     * @test
      */
-    protected function getPlatform()
+    public function I_can_add_subtypes()
     {
-        return \Mockery::mock(AbstractPlatform::class);
-    }
+        self::assertTrue(
+            BooleanEnumType::addSubTypeEnum(TestSubTypeBooleanEnum::getClass(), '~1~')
+        );
+        self::assertTrue(
+            BooleanEnumType::hasSubTypeEnum(TestSubTypeBooleanEnum::getClass())
+        );
 
-    /**
-     * @return string|TestSubTypeBooleanEnum
-     */
-    protected function getSubTypeEnumClass()
-    {
-        return TestSubTypeBooleanEnum::getClass();
-    }
-
-    /**
-     * @return string|TestAnotherSubTypeBooleanEnum
-     */
-    protected function getAnotherSubTypeEnumClass()
-    {
-        return TestAnotherSubTypeBooleanEnum::getClass();
-    }
-
-    /**
-     * @return TestAnotherBooleanEnumType|string
-     */
-    protected function getAnotherEnumTypeClass()
-    {
-        return TestAnotherBooleanEnumType::getClass();
+        self::assertTrue(
+            BooleanEnumType::addSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass(), '~1~')
+        );
+        self::assertTrue(
+            BooleanEnumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass())
+        );
     }
 
 }

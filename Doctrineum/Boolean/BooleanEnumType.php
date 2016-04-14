@@ -22,20 +22,36 @@ class BooleanEnumType extends ScalarEnumType
      *
      * @param mixed $enumValue
      *
-     * @return BooleanEnum
+     * @return BooleanEnum|null
+     * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      */
     protected function convertToEnum($enumValue)
     {
-        $this->checkValueToConvert($enumValue);
+        if ($enumValue === null) {
+            return null;
+        }
 
-        return parent::convertToEnum($enumValue);
+        try {
+            return parent::convertToEnum($this->convertToEnumValue($enumValue));
+        } catch (\Doctrineum\Scalar\Exceptions\UnexpectedValueToConvert $exception) {
+            // wrapping exception by local one
+            throw new Exceptions\UnexpectedValueToConvert(
+                $exception->getMessage(),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
-    protected function checkValueToConvert($value)
+    /**
+     * @param $value
+     * @return bool
+     * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     */
+    protected function convertToEnumValue($value)
     {
         try {
-            // Uses side effect of the conversion - the checks
-            ToBoolean::toBoolean($value);
+            return ToBoolean::toBoolean($value, true /* strict */);
         } catch (\Granam\Boolean\Tools\Exceptions\WrongParameterType $exception) {
             // wrapping exception by a local one
             throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
