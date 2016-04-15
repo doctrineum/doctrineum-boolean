@@ -2,7 +2,7 @@
 namespace Doctrineum\Tests\Boolean;
 
 use Doctrineum\Boolean\BooleanEnum;
-use Doctrineum\Tests\Scalar\WithToStringTestObject;
+use Doctrineum\Tests\Scalar\Helpers\WithToStringTestObject;
 use Granam\Boolean\BooleanInterface;
 
 class BooleanEnumTest extends \PHPUnit_Framework_TestCase
