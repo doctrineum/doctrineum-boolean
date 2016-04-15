@@ -27,10 +27,6 @@ class BooleanEnumType extends ScalarEnumType
      */
     protected function convertToEnum($enumValue)
     {
-        if ($enumValue === null) {
-            return null;
-        }
-
         try {
             return parent::convertToEnum($this->convertToEnumValue($enumValue));
         } catch (\Doctrineum\Scalar\Exceptions\UnexpectedValueToConvert $exception) {

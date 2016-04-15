@@ -2,6 +2,7 @@
 namespace Doctrineum\Tests\Boolean;
 
 use Doctrineum\Boolean\BooleanEnum;
+use Doctrineum\Scalar\ScalarEnum;
 use Granam\Tests\Exceptions\Tools\AbstractExceptionsHierarchyTest;
 
 class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
@@ -16,6 +17,13 @@ class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
     protected function getRootNamespace()
     {
         return $this->getTestedNamespace();
+    }
+
+    protected function getExternalRootNamespaces()
+    {
+        $externalRootReflection = new \ReflectionClass(ScalarEnum::getClass());
+
+        return $externalRootReflection->getNamespaceName();
     }
 
 }

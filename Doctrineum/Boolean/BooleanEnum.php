@@ -14,25 +14,16 @@ class BooleanEnum extends ScalarEnum implements BooleanEnumInterface
     /**
      * Overloading parent @see \Doctrineum\Scalar\EnumTrait::convertToEnumFinalValue
      * @param mixed $enumValue
-     * @return int
+     * @return bool
+     * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      */
     protected static function convertToEnumFinalValue($enumValue)
     {
-        return static::convertToBoolean($enumValue);
-    }
-
-    /**
-     * @param mixed $valueToConvert
-     * @return bool
-     */
-    protected static function convertToBoolean($valueToConvert)
-    {
         try {
-            return ToBoolean::toBoolean($valueToConvert);
+            return ToBoolean::toBoolean($enumValue, true /* strict */);
         } catch (\Granam\Boolean\Tools\Exceptions\WrongParameterType $exception) {
             // wrapping the exception by local one
             throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
         }
     }
-
 }

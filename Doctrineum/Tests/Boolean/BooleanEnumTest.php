@@ -8,7 +8,9 @@ use Granam\Boolean\BooleanInterface;
 class BooleanEnumTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @test */
+    /**
+     * @test
+     */
     public function I_can_create_boolean_enum()
     {
         $instance = BooleanEnum::getEnum(true);
@@ -17,98 +19,51 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(BooleanInterface::class, $instance);
     }
 
-    /** @test */
-    public function I_will_get_the_same_value_as_boolean_as_created_with()
+    /**
+     * @test
+     * @dataProvider provideUsableValue
+     * @param mixed $value
+     * @param string $expectedString
+     */
+    public function I_will_get_the_same_value_as_boolean_as_created_with($value, $expectedString)
     {
-        $enum = BooleanEnum::getEnum($value = 1);
-        self::assertSame((bool)$value, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
+        $enum = BooleanEnum::getEnum($value);
+        self::assertSame((bool)$expectedString, $enum->getValue());
+        self::assertSame($expectedString, "$enum");
+    }
 
-        $enum = BooleanEnum::getEnum($stringInteger = '123');
-        self::assertSame((bool)$stringInteger, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
+    public function provideUsableValue()
+    {
+        return [
+            [1, '1'],
+            ['123', '1'],
+            ['  12 ', '1'],
+            [123.456, '1'],
+            ['789.654', '1'],
+            [0, ''],
+            ['0', ''],
+            [0.0, ''],
+            ['0.0', '1'],
+            ['', ''],
+            [' ', '1'],
+            ["\t", '1'],
+            ["\n", '1'],
+            ["\r", '1'],
+            ['0123', '1'],
+            ['0abc', '1'],
+            [new WithToStringTestObject(12345), '1'],
+            [new WithToStringTestObject('foo'), '1'],
+        ];
+    }
 
-        $enum = BooleanEnum::getEnum($stringIntegerWithWhiteSpaces = '  12 ');
-        self::assertSame((bool)$stringIntegerWithWhiteSpaces, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($float = 123.456);
-        self::assertSame((bool)$float, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($stringFloat = '789.654');
-        self::assertSame((bool)$stringFloat, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($integerZero = 0);
-        self::assertSame((bool)$integerZero, $enum->getValue());
-        self::assertSame(false, $enum->getValue());
-        self::assertSame('', "$enum");
-
-        $enum = BooleanEnum::getEnum($stringIntegerZero = '0');
-        self::assertSame((bool)$stringIntegerZero, $enum->getValue());
-        self::assertSame(false, $enum->getValue());
-        self::assertSame('', "$enum");
-
-        $enum = BooleanEnum::getEnum($floatZero = 0.0);
-        self::assertSame((bool)$floatZero, $enum->getValue());
-        self::assertSame(false, $enum->getValue());
-        self::assertSame('', "$enum");
-
-        $enum = BooleanEnum::getEnum($stringFloatZero = '0.0');
-        self::assertSame((bool)$stringFloatZero, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($emptyString = '');
-        self::assertSame((bool)$emptyString, $enum->getValue());
-        self::assertSame(false, $enum->getValue());
-        self::assertSame('', "$enum");
-
-        $enum = BooleanEnum::getEnum($null = null);
-        self::assertSame((bool)$null, $enum->getValue());
-        self::assertSame(false, $enum->getValue());
-        self::assertSame('', "$enum");
-
-        $enum = BooleanEnum::getEnum($space = ' ');
-        self::assertSame((bool)$space, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($tab = "\t");
-        self::assertSame((bool)$tab, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($newLine = "\n");
-        self::assertSame((bool)$newLine, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($stringNumberWithLeadingZeros = '0123');
-        self::assertSame((bool)$stringNumberWithLeadingZeros, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum($stringWithLeadingZeros = '0abc');
-        self::assertSame((bool)$stringWithLeadingZeros, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum(new WithToStringTestObject($integer = 12345));
-        self::assertSame((bool)$integer, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
-
-        $enum = BooleanEnum::getEnum(new WithToStringTestObject($string = 'foo'));
-        self::assertSame((bool)$string, $enum->getValue());
-        self::assertTrue($enum->getValue());
-        self::assertSame('1', "$enum");
+    /**
+     * @test
+     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedExceptionMessageRegExp ~got NULL$~
+     */
+    public function I_can_not_use_null()
+    {
+        BooleanEnum::getEnum(null);
     }
 
     /**
