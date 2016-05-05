@@ -9,7 +9,7 @@
     }
   },
   "require": {
-    "php": ">=5.5",
+    "php": ">=5.5|~7",
     "granam/strict-object": "dev-master",
     "doctrineum/scalar": "dev-master",
     "granam/boolean": "dev-master"
