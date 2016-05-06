@@ -29,7 +29,7 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
     {
         $enum = BooleanEnum::getEnum($value);
         self::assertSame((bool)$expectedString, $enum->getValue());
-        self::assertSame($expectedString, "$enum");
+        self::assertSame($expectedString, (string)$enum);
     }
 
     public function provideUsableValue()

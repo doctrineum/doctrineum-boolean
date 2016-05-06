@@ -2,10 +2,9 @@
 namespace Doctrineum\Boolean;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrineum\Scalar\Enum;
 
 /**
- * @method integer convertToDatabaseValue(Enum $enumValue, AbstractPlatform $platform)
+ * @method integer convertToDatabaseValue(BooleanEnumType $enumValue, AbstractPlatform $platform)
  * @see \Doctrineum\Scalar\ScalarEnumType::convertToDatabaseValue
  */
 trait BooleanEnumTypeTrait

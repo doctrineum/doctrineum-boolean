@@ -5,11 +5,7 @@ use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Boolean\Tools\ToBoolean;
 
 /**
- * Class ScalarEnumType
- * @package Doctrineum
- *
  * @method static BooleanEnumType getType($name),
- * @see Type::getType
  */
 class BooleanEnumType extends ScalarEnumType
 {
@@ -18,12 +14,22 @@ class BooleanEnumType extends ScalarEnumType
     const BOOLEAN_ENUM = 'boolean_enum';
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return self::BOOLEAN_ENUM;
+    }
+
+    /**
      * @see \Doctrineum\Scalar\ScalarEnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
      *
      * @return BooleanEnum|null
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @throws \Doctrineum\Scalar\Exceptions\CouldNotDetermineEnumClass
+     * @throws \Doctrineum\Scalar\Exceptions\EnumClassNotFound
      */
     protected function convertToEnum($enumValue)
     {

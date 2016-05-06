@@ -27,5 +27,8 @@ $enum->getValue() === true === (bool)' '; // beware, casting any white character
 
 ```
 
+Note: NULL is prohibited. NULL means "I don't know" and that is not FALSE neither TRUE.
+If you want to use NULL, as lets say FALSE, do that conversion by your own, because you are the only one "who knows".
+
 # Doctrine integration
 For details about new Doctrine type registration, see the parent project [Doctrineum](https://github.com/jaroslavtyc/doctrineum).
