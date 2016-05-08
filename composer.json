@@ -1,7 +1,7 @@
 {
   "name": "doctrineum/boolean",
   "type": "library",
-  "description": "Enumeration type for Doctrine - bools only",
+  "description": "Enumeration type for Doctrine - booleans only",
   "license": "MIT",
   "autoload": {
     "psr-4": {

@@ -6,9 +6,9 @@ use Doctrine\DBAL\Types\Type;
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Boolean\BooleanEnumType;
 use Doctrineum\Scalar\ScalarEnumInterface;
-use Doctrineum\Tests\Scalar\AbstractTypeTest;
+use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
 
-class BooleanEnumTypeTest extends AbstractTypeTest
+class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 {
 
     protected function setUp()
