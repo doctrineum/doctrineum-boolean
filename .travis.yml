@@ -1,21 +1,24 @@
-sudo: false # @link https://docs.travis-ci.com/user/workers/container-based-infrastructure/
-
 language: php
 php:
+  - nightly
+  - hhvm
+  - 7.1
   - 7.0
   - 5.6
   - 5.5
-  - nightly
-  - hhvm
+  - 5.4
 
 matrix:
   allow_failures:
     - php: nightly
 
 before_script:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^[0-9]+[.][0-9]+$ ]]; then phpenv config-rm xdebug.ini; fi
   - composer selfupdate
   - composer update --no-interaction --prefer-dist
+  - composer require codeclimate/php-test-reporter:dev-master --dev
 
 script:
-  - ./vendor/phpunit/phpunit/phpunit -v
+  - ./vendor/phpunit/phpunit/phpunit -v --coverage-clover build/logs/clover.xml
+
+after_script:
+  - CODECLIMATE_REPO_TOKEN=21c78e8e4c53493052800f8bd52f85beb9ee4663d04379aaa9b1f8d48ec52639 ./vendor/bin/test-reporter
