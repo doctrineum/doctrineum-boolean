@@ -23,13 +23,13 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider provideUsableValue
      * @param mixed $value
-     * @param string $expectedString
+     * @param string $expectedAsString
      */
-    public function I_will_get_the_same_value_as_boolean_as_created_with($value, $expectedString)
+    public function I_will_get_the_same_value_as_boolean_as_created_with($value, $expectedAsString)
     {
         $enum = BooleanEnum::getEnum($value);
-        self::assertSame((bool)$expectedString, $enum->getValue());
-        self::assertSame($expectedString, (string)$enum);
+        self::assertSame((bool)$expectedAsString, $enum->getValue());
+        self::assertSame($expectedAsString, (string)$enum);
     }
 
     public function provideUsableValue()
@@ -45,7 +45,7 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
             [0.0, ''],
             ['0.0', '1'],
             ['', ''],
-            [' ', '1'],
+            [' ', '1'], // beware, space converted to boolean is true
             ["\t", '1'],
             ["\n", '1'],
             ["\r", '1'],
