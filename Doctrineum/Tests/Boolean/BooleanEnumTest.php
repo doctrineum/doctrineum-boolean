@@ -15,7 +15,7 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
     {
         $instance = BooleanEnum::getEnum(true);
         /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertInstanceOf(BooleanEnum::getClass(), $instance);
+        self::assertInstanceOf(BooleanEnum::class, $instance);
         self::assertInstanceOf(BooleanInterface::class, $instance);
     }
 

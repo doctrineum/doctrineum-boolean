@@ -21,7 +21,7 @@ class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 
     protected function getExternalRootNamespaces()
     {
-        $externalRootReflection = new \ReflectionClass(ScalarEnum::getClass());
+        $externalRootReflection = new \ReflectionClass(ScalarEnum::class);
 
         return $externalRootReflection->getNamespaceName();
     }

@@ -23,11 +23,11 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     {
         $enumType = Type::getType($this->getExpectedTypeName());
         /** @var BooleanEnumType $enumType */
-        if ($enumType::hasSubTypeEnum(TestSubTypeBooleanEnum::getClass())) {
-            self::assertTrue($enumType::removeSubTypeEnum(TestSubTypeBooleanEnum::getClass()));
+        if ($enumType::hasSubTypeEnum(TestSubTypeBooleanEnum::class)) {
+            self::assertTrue($enumType::removeSubTypeEnum(TestSubTypeBooleanEnum::class));
         }
-        if ($enumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass())) {
-            self::assertTrue($enumType::removeSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass()));
+        if ($enumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::class)) {
+            self::assertTrue($enumType::removeSubTypeEnum(TestAnotherSubTypeBooleanEnum::class));
         }
         parent::tearDown();
     }
@@ -66,7 +66,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     }
 
     /**
-     * @return AbstractPlatform
+     * @return AbstractPlatform|\Mockery\MockInterface
      */
     private function getAbstractPlatform()
     {
@@ -149,17 +149,17 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     public function I_can_add_boolean_subtypes()
     {
         self::assertTrue(
-            BooleanEnumType::addSubTypeEnum(TestSubTypeBooleanEnum::getClass(), '~1~')
+            BooleanEnumType::addSubTypeEnum(TestSubTypeBooleanEnum::class, '~1~')
         );
         self::assertTrue(
-            BooleanEnumType::hasSubTypeEnum(TestSubTypeBooleanEnum::getClass())
+            BooleanEnumType::hasSubTypeEnum(TestSubTypeBooleanEnum::class)
         );
 
         self::assertTrue(
-            BooleanEnumType::addSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass(), '~1~')
+            BooleanEnumType::addSubTypeEnum(TestAnotherSubTypeBooleanEnum::class, '~1~')
         );
         self::assertTrue(
-            BooleanEnumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::getClass())
+            BooleanEnumType::hasSubTypeEnum(TestAnotherSubTypeBooleanEnum::class)
         );
     }
 
