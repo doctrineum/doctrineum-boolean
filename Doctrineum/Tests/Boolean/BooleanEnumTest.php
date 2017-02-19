@@ -4,8 +4,9 @@ namespace Doctrineum\Tests\Boolean;
 use Doctrineum\Boolean\BooleanEnum;
 use Doctrineum\Tests\Scalar\Helpers\WithToStringTestObject;
 use Granam\Boolean\BooleanInterface;
+use PHPUnit\Framework\TestCase;
 
-class BooleanEnumTest extends \PHPUnit_Framework_TestCase
+class BooleanEnumTest extends TestCase
 {
 
     /**
@@ -14,7 +15,6 @@ class BooleanEnumTest extends \PHPUnit_Framework_TestCase
     public function I_can_create_boolean_enum()
     {
         $instance = BooleanEnum::getEnum(true);
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertInstanceOf(BooleanEnum::class, $instance);
         self::assertInstanceOf(BooleanInterface::class, $instance);
     }

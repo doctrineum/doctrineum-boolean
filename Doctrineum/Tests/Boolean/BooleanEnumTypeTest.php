@@ -43,7 +43,6 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param BooleanEnumType $enumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -55,7 +54,6 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param BooleanEnumType $enumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -75,7 +73,6 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param $enumValue
-     *
      * @test
      * @dataProvider provideEnumValueForDatabase
      */
@@ -95,7 +92,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     {
         return [
             [0],
-            [1]
+            [1],
         ];
     }
 
@@ -133,7 +130,6 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param BooleanEnumType $enumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
