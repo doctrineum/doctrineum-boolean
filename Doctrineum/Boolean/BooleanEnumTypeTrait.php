@@ -22,7 +22,7 @@ trait BooleanEnumTypeTrait
         /** @noinspection PhpUnusedParameterInspection */
         array $fieldDeclaration,
         AbstractPlatform $platform
-    )
+    ): string
     {
         return 'INTEGER';
     }
@@ -37,7 +37,7 @@ trait BooleanEnumTypeTrait
     public function getDefaultLength(
         /** @noinspection PhpUnusedParameterInspection */
         AbstractPlatform $platform
-    )
+    ): int
     {
         return 1;
     }

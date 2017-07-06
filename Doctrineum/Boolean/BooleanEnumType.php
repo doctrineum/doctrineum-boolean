@@ -16,7 +16,7 @@ class BooleanEnumType extends ScalarEnumType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::BOOLEAN_ENUM;
     }
@@ -50,7 +50,7 @@ class BooleanEnumType extends ScalarEnumType
      * @return bool
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      */
-    protected function convertToEnumValue($value)
+    protected function convertToEnumValue($value): bool
     {
         try {
             return ToBoolean::toBoolean($value, true /* strict */);

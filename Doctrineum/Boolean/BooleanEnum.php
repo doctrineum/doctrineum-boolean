@@ -13,11 +13,12 @@ class BooleanEnum extends ScalarEnum implements BooleanEnumInterface
 
     /**
      * Overloading parent @see \Doctrineum\Scalar\EnumTrait::convertToEnumFinalValue
+     *
      * @param mixed $enumValue
      * @return bool
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      */
-    protected static function convertToEnumFinalValue($enumValue)
+    protected static function convertToEnumFinalValue($enumValue): bool
     {
         try {
             return ToBoolean::toBoolean($enumValue, true /* strict */);
