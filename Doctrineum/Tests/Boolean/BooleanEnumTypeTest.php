@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\Tests\Boolean;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -36,7 +38,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @return BooleanEnumType
      */
-    public function I_can_get_instance()
+    public function I_can_get_instance(): BooleanEnumType
     {
         return parent::I_can_get_instance(); // wrapping parent to provide "proper" tests execution order
     }
@@ -88,7 +90,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
         self::assertSame($enumValue, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
     }
 
-    public function provideEnumValueForDatabase()
+    public function provideEnumValueForDatabase(): array
     {
         return [
             [0],
@@ -110,7 +112,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
         self::assertSame((string)(bool)$valueToConvert, (string)$enum);
     }
 
-    public function provideValueToConvertIntoEnum()
+    public function provideValueToConvertIntoEnum(): array
     {
         return [
             [123],

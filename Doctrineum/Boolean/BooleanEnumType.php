@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\Boolean;
 
 use Doctrineum\Scalar\ScalarEnumType;
@@ -25,7 +27,6 @@ class BooleanEnumType extends ScalarEnumType
      * @see \Doctrineum\Scalar\ScalarEnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
-     *
      * @return BooleanEnum|null
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      * @throws \Doctrineum\Scalar\Exceptions\CouldNotDetermineEnumClass
@@ -37,11 +38,7 @@ class BooleanEnumType extends ScalarEnumType
             return parent::convertToEnum($this->convertToEnumValue($enumValue));
         } catch (\Doctrineum\Scalar\Exceptions\UnexpectedValueToConvert $exception) {
             // wrapping exception by local one
-            throw new Exceptions\UnexpectedValueToConvert(
-                $exception->getMessage(),
-                $exception->getCode(),
-                $exception
-            );
+            throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
         }
     }
 
