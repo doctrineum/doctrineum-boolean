@@ -8,7 +8,6 @@ use Granam\Boolean\Tools\ToBoolean;
 
 /**
  * @method static BooleanEnum getEnum($value)
- * @method bool getValue()
  */
 class BooleanEnum extends ScalarEnum implements BooleanEnumInterface
 {
