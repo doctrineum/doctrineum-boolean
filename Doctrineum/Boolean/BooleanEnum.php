@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
 
 namespace Doctrineum\Boolean;
 
@@ -28,5 +28,13 @@ class BooleanEnum extends ScalarEnum implements BooleanEnumInterface
             // wrapping the exception by local one
             throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getValue(): bool
+    {
+        return parent::getValue();
     }
 }

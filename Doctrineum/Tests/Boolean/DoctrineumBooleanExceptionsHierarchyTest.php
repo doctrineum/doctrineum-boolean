@@ -9,8 +9,9 @@ class DoctrineumBooleanExceptionsHierarchyTest extends AbstractExceptionsHierarc
 {
     /**
      * @return string
+     * @throws \ReflectionException
      */
-    protected function getTestedNamespace()
+    protected function getTestedNamespace(): string
     {
         $reflection = new \ReflectionClass(BooleanEnum::class);
 
@@ -19,16 +20,18 @@ class DoctrineumBooleanExceptionsHierarchyTest extends AbstractExceptionsHierarc
 
     /**
      * @return string
+     * @throws \ReflectionException
      */
-    protected function getRootNamespace()
+    protected function getRootNamespace(): string
     {
         return $this->getTestedNamespace();
     }
 
     /**
      * @return string
+     * @throws \ReflectionException
      */
-    protected function getExternalRootNamespaces()
+    protected function getExternalRootNamespaces(): string
     {
         $externalRootReflection = new \ReflectionClass(ScalarEnum::class);
 

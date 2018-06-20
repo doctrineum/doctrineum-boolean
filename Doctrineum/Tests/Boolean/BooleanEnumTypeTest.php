@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
 
 namespace Doctrineum\Tests\Boolean;
 
@@ -13,7 +13,10 @@ use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
 class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
 {
 
-    protected function setUp()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function setUp(): void
     {
         $enumTypeClass = $this->getTypeClass();
         if (!Type::hasType($this->getExpectedTypeName())) {
@@ -21,7 +24,10 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
         }
     }
 
-    protected function tearDown()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function tearDown(): void
     {
         $enumType = Type::getType($this->getExpectedTypeName());
         /** @var BooleanEnumType $enumType */
@@ -48,7 +54,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      */
-    public function Its_sql_declaration_is_valid(BooleanEnumType $enumType)
+    public function Its_sql_declaration_is_valid(BooleanEnumType $enumType): void
     {
         $sql = $enumType->getSQLDeclaration([], $this->getAbstractPlatform());
         self::assertSame('INTEGER', $sql);
@@ -59,7 +65,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      */
-    public function Its_sql_default_length_is_one(BooleanEnumType $enumType)
+    public function Its_sql_default_length_is_one(BooleanEnumType $enumType): void
     {
         $defaultLength = $enumType->getDefaultLength($this->getAbstractPlatform());
         self::assertSame(1, $defaultLength);
@@ -74,14 +80,15 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     }
 
     /**
-     * @param $enumValue
      * @test
      * @dataProvider provideEnumValueForDatabase
+     * @param int $enumValue
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function Its_persisted_with_equal_value_as_enum_has($enumValue)
+    public function Its_persisted_with_equal_value_as_enum_has(int $enumValue): void
     {
         $enum = $this->mockery(ScalarEnumInterface::class);
-        $enum->shouldReceive('getValue')
+        $enum->expects('getValue')
             ->once()
             ->andReturn($enumValue);
 
@@ -102,8 +109,9 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @dataProvider provideValueToConvertIntoEnum
      * @param $valueToConvert
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function I_get_enum_with_database_value($valueToConvert)
+    public function I_get_enum_with_database_value(int $valueToConvert): void
     {
         $enumType = Type::getType($this->getExpectedTypeName());
         $enum = $enumType->convertToPHPValue($valueToConvert, $this->getAbstractPlatform());
@@ -124,8 +132,9 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @param BooleanEnumType $booleanEnumType
      * @test
      * @depends I_can_get_instance
+     * @throws \ReflectionException
      */
-    public function I_got_null_instead_on_enum_if_null_is_fetched_from_database(BooleanEnumType $booleanEnumType)
+    public function I_got_null_instead_on_enum_if_null_is_fetched_from_database(BooleanEnumType $booleanEnumType): void
     {
         self::assertNull($booleanEnumType->convertToPHPValue(null, $this->getAbstractPlatform()));
     }
@@ -135,8 +144,9 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @throws \ReflectionException
      */
-    public function I_am_stopped_if_database_provides_invalid_value(BooleanEnumType $enumType)
+    public function I_am_stopped_if_database_provides_invalid_value(BooleanEnumType $enumType): void
     {
         $enumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
     }
@@ -144,7 +154,7 @@ class BooleanEnumTypeTest extends AbstractSelfRegisteringTypeTest
     /**
      * @test
      */
-    public function I_can_add_boolean_subtypes()
+    public function I_can_add_boolean_subtypes(): void
     {
         self::assertTrue(
             BooleanEnumType::addSubTypeEnum(TestSubTypeBooleanEnum::class, '~1~')

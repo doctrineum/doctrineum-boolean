@@ -1,8 +1,9 @@
 <?php
-declare(strict_types = 1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
 
 namespace Doctrineum\Boolean;
 
+use Doctrineum\Scalar\ScalarEnum;
 use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Boolean\Tools\ToBoolean;
 
@@ -13,7 +14,7 @@ class BooleanEnumType extends ScalarEnumType
 {
     use BooleanEnumTypeTrait;
 
-    const BOOLEAN_ENUM = 'boolean_enum';
+    public const BOOLEAN_ENUM = 'boolean_enum';
 
     /**
      * @return string
@@ -27,12 +28,13 @@ class BooleanEnumType extends ScalarEnumType
      * @see \Doctrineum\Scalar\ScalarEnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
-     * @return BooleanEnum|null
+     * @return BooleanEnum|ScalarEnum|null
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      * @throws \Doctrineum\Scalar\Exceptions\CouldNotDetermineEnumClass
      * @throws \Doctrineum\Scalar\Exceptions\EnumClassNotFound
+     * @throws \ReflectionException
      */
-    protected function convertToEnum($enumValue)
+    protected function convertToEnum($enumValue): BooleanEnum
     {
         try {
             return parent::convertToEnum($this->convertToEnumValue($enumValue));
