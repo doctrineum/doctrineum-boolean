@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Doctrineum\Boolean;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
