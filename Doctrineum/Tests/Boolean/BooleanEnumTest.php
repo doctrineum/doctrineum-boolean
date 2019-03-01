@@ -60,7 +60,7 @@ class BooleanEnumTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedException \Granam\BooleanEnum\Exceptions\WrongValueForBooleanEnum
      * @expectedExceptionMessageRegExp ~got NULL$~
      */
     public function I_can_not_use_null(): void
@@ -70,7 +70,7 @@ class BooleanEnumTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedException \Granam\BooleanEnum\Exceptions\WrongValueForBooleanEnum
      */
     public function I_can_not_use_array(): void
     {
@@ -79,7 +79,7 @@ class BooleanEnumTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedException \Granam\BooleanEnum\Exceptions\WrongValueForBooleanEnum
      */
     public function I_can_not_use_resource(): void
     {
@@ -88,7 +88,7 @@ class BooleanEnumTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedException \Granam\BooleanEnum\Exceptions\WrongValueForBooleanEnum
      */
     public function I_can_not_use_object_without_to_string_method(): void
     {
@@ -97,7 +97,7 @@ class BooleanEnumTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
+     * @expectedException \Granam\BooleanEnum\Exceptions\WrongValueForBooleanEnum
      */
     public function callback_to_php_value_cause_exception(): void
     {

@@ -28,7 +28,7 @@ class BooleanEnumType extends ScalarEnumType
      * @see \Doctrineum\Scalar\ScalarEnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
-     * @return BooleanEnum
+     * @return BooleanEnum|ScalarEnumInterface
      * @throws \Doctrineum\Boolean\Exceptions\UnexpectedValueToConvert
      * @throws \Doctrineum\Scalar\Exceptions\CouldNotDetermineEnumClass
      * @throws \Doctrineum\Scalar\Exceptions\EnumClassNotFound
